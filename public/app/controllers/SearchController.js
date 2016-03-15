@@ -1,6 +1,6 @@
 angular.module('BookDuckApp')
 .controller('SearchController', ['$scope', 'search', function($scope, search) {
-    // SEARCH FOR VENUES BASED ON LOCATION
+    // SEARCH FOR BOOKS BASED ON SEARCH TERMS
     $scope.bookSearch = function() {
         if (!$scope.bookTerms) {
             $scope.message = "You need to enter a book name or ISBN code to search.";
@@ -16,5 +16,13 @@ angular.module('BookDuckApp')
                 $scope.message = "There was no data found for this book.";
             });
         }
-    }; 
+    };
+    // FUNCTION TO SHORTEN DESCRIPTION
+    $scope.descriptionLength = function(description) {
+      if (description.length > 400) {
+        return description.slice(0, 397) + "...";
+      } else {
+        return description;
+      }
+    };
 }]);

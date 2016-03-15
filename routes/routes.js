@@ -36,7 +36,7 @@ module.exports = function (app, db, passport) {
         });
     app.route('/api/book/search/:search')
         .get(isLoggedIn, function(req, res) {
-			books.volumes.list({ auth: API_KEY, q: req.params.search, maxResults: 12 }, function(err, data) {
+			books.volumes.list({ auth: API_KEY, q: req.params.search, maxResults: 20, projection: "lite" }, function(err, data) {
             	if (err) {
             		console.log(err);
             		res.status(400).json(err);
