@@ -1,14 +1,15 @@
 angular.module('BookDuckApp')
 .controller('SearchController', ['$scope', 'search', function($scope, search) {
     // SEARCH FOR VENUES BASED ON LOCATION
-    $scope.localSearch = function() {
-        if ($scope.userLocation) {
+    $scope.bookSearch = function() {
+        if (!$scope.bookTerms) {
+            $scope.message = "You need to enter a book name or ISBN code to search.";
+        } else {
             $scope.message = false;
-            $scope.currentPage = 1;
             $scope.loading = true;
-            search.getResults($scope.bookDetails).success(function(data) {
-                $scope.bookResults = data;
-                $scope.totalItems = data.total;
+            search.bookSearch($scope.bookTerms).success(function(data) {
+                $scope.bookItems = data.items;
+                $scope.totalItems = data.totalItems;
                 $scope.loading = false;
             }).error(function(error) {
                 $scope.loading = false;

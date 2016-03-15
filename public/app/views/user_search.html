@@ -1,0 +1,48 @@
+<div class="container">
+    
+    <div class="col-md-12">
+    
+        <div>
+            <form ng-submit="bookSearch()">
+                <div class="form-group">
+                    <br>
+                    <div class="input-group">
+                        <input ng-model="bookTerms" name="bookTerms" id="bookTerms" type="text" class="form-control" placeholder="What book are you quacking about?">
+                        <span class="input-group-btn">
+                            <input type="submit" id="submitLocation" class="btn btn-block btn-success" value="Find Book" />
+                        </span>
+                    </div>
+                </div>
+            </form>
+        </div>
+        
+        <div ng-if="loading">
+            <div class="well text-center">
+              <h3><i class="fa fa-refresh fa-spin"></i> Loading venues...</h3>
+            </div>
+        </div>
+        
+        <div ng-if="message">
+            <div class="well text-center">
+              <h3><i class="fa fa-exclamation-triangle"></i> {{ message }} </h3>
+            </div>
+        </div>
+    
+    </div>
+    
+    <div class="col-md-4" ng-repeat="book in bookItems">
+        <div class="panel panel-success">
+          <div class="panel-heading">
+            <h3 class="panel-title">{{ book.volumeInfo.title }}</h3>
+          </div>
+          <div class="panel-body">
+              <p><img class="img-responsive img-center" ng-src="{{ book.volumeInfo.imageLinks.thumbnail }}" /></p>
+              <p><b>Published:</b> {{ book.volumeInfo.publishedDate | date : format : medium }}<br>
+              <b>Average Rating:</b> {{ book.volumeInfo.averageRating }}<br>
+              <b>Number of Ratings:</b> {{ book.volumeInfo.ratingsCount }}<br>
+              <b>Description:</b> {{ book.volumeInfo.description }}</p>
+          </div>
+        </div>
+    </div>
+    
+</div>
