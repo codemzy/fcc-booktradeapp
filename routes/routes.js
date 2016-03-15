@@ -1,3 +1,9 @@
+var google = require('googleapis');
+var books = google.books('v1');
+require('dotenv').config();
+ 
+var API_KEY = process.env.GOOGLE_KEY;
+
 module.exports = function (app, db, passport) {
     
     // function to check if user is logged in
@@ -27,6 +33,17 @@ module.exports = function (app, db, passport) {
     app.route('/api/user')
         .get(isLoggedIn, function(req, res) {
 			res.json(req.user);
+        });
+    app.route('/api/book/search/:search')
+        .get(function(req, res) {
+			books.volumes.list({ auth: API_KEY, q: req.params.search }, function(err, data) {
+            	if (err) {
+            		console.log(err);
+            		res.status(400).json(err);
+            	} else {
+            		res.json(data);
+            	}
+			});
         });
 
         
