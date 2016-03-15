@@ -19,6 +19,10 @@ body {
   margin-right: 5px;
 }
 
+.btn-sm {
+  margin-right: 5px;
+}
+
 /*FORMS*/
 
 .form-control:focus {

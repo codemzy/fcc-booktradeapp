@@ -45,6 +45,13 @@
                       <b>Average Rating:</b> {{ book.volumeInfo.averageRating }}<br>
                       <b>Number of Ratings:</b> {{ book.volumeInfo.ratingsCount }}<br>
                       <b>Description:</b> {{ descriptionLength(book.volumeInfo.description) }}</p>
+                      <p><button ng-click="requestAdd(book.id)" class="btn btn-default btn-block">Add</button></p>
+                  </div>
+                  <div ng-if="book.addRequest" class="col-md-12">
+                      <div class="well text-center">
+                      <small>Are you sure you want to add this book to your library?</small><br>
+                      <button ng-click="cancelAdd(book.id)" class="btn btn-danger btn-sm">Cancel</button><button ng-click="addBook(book)" class="btn btn-success btn-sm">Add Book</button>
+                      </div>
                   </div>
               </div>
           </div>

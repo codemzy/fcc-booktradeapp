@@ -1,3 +1,6 @@
+var bodyParser = require('body-parser');
+var parseUrlencoded = bodyParser.urlencoded({ extended: true });
+
 var google = require('googleapis');
 var books = google.books('v1');
 require('dotenv').config();
@@ -44,6 +47,12 @@ module.exports = function (app, db, passport) {
             		res.json(data);
             	}
 			});
+        });
+	// TO DO ADD BOOK FROM POST REQUEST
+    app.route('/api/user/add/book')
+        .post(isLoggedIn, parseUrlencoded, function(req, res) {
+			// get the book data
+			console.log(req.body);
         });
 
         
