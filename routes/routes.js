@@ -35,7 +35,7 @@ module.exports = function (app, db, passport) {
 			res.json(req.user);
         });
     app.route('/api/book/search/:search')
-        .get(function(req, res) {
+        .get(isLoggedIn, function(req, res) {
 			books.volumes.list({ auth: API_KEY, q: req.params.search }, function(err, data) {
             	if (err) {
             		console.log(err);
