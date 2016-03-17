@@ -9,6 +9,21 @@ angular.module('BookDuckApp')
                 return err;
               });
   };
+  // add book to library
+  this.updateUser = function(data) {
+    return $http({
+            method  : 'POST',
+            url     : '/api/user/update',
+            data    : data, 
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+            })
+              .success(function(data) {
+                return data;
+              })
+              .error(function(data) {
+                return data;
+              });
+  };
   this.logoutUser = function() {
     return $http.get('/logout')
               .success(function(data) {

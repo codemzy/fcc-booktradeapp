@@ -14,5 +14,19 @@ angular.module('BookDuckApp')
     $scope.userLogout = function() {
       user.logoutUser();
     };
-  });  
+    $scope.formData = {};
+    $scope.formData.fullName = data.fullName;
+    $scope.formData.city = data.city;
+    $scope.formData.state = data.state;
+    $scope.formData.country = data.country;
+    $scope.updateUser = function () {
+      if ($scope.formData.fullName.match(/[^a-z\s0-9?]/ig) || $scope.formData.city.match(/[^a-z\s0-9?]/ig) || $scope.formData.state.match(/[^a-z\s0-9?]/ig) || $scope.formData.country.match(/[^a-z\s0-9?]/ig)) {
+        $scope.helpForm = 'Invalid Information. Please remove punctuation (valid characters are letters, numbers, spaces.)';
+      }
+      var userData = $.param($scope.formData);
+      user.updateUser(userData).success(function(data) {
+        $scope.helpForm = data;
+      });
+    };
+  }); 
 }]);

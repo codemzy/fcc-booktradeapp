@@ -46,19 +46,22 @@
     </div>
     
     <div class="col-md-12"> 
-        <h3>Pending Trades.</h3>
-        <div ng-if="user.activity[0]">
-            <div class="list-group">
-              <li class="list-group-item list-group-item-default" ng-repeat="activity in user.activity">
-                  You {{activity.type}} to <b>{{ activity.venue }}</b> on {{ activity.date }}.
-              </li>
+        <h3>Additional Info.</h3>
+        <form ng-submit="updateUser()" class="well">
+            <div class="form-group">
+                <div ng-if="helpForm" class="text-center"><small>{{ helpForm }}</small></div>
+                <br>
+                <label for="fullName">Full Name:</label>
+                <input ng-model="formData.fullName" name="fullName" id="fullName" type="text" class="form-control" placeholder="Your full name..." required> 
+                <label for="userCity">City:</label>
+                <input ng-model="formData.city" name="city" id="city" type="text" class="form-control" placeholder="Your city..." required> 
+                <label for="userState">State:</label>
+                <input ng-model="formData.state" name="userState" id="userState" type="text" class="form-control" placeholder="Your state..."> 
+                  <label for="userCountry">Country:</label>
+                <input ng-model="formData.country" name="userCountry" id="userCountry" type="text" class="form-control" placeholder="Your country..." > 
             </div>
-        </div>
-        <div ng-if="!user.activity[0]">
-            <div class="jumbotron text-center">
-              <h3><i class="fa fa-exclamation-circle"></i> No votes yet!</h3>
-            </div>
-        </div>
+            <input type="submit" id="updateInfo" class="btn btn-block btn-default" value="Update User Information" />
+        </form>
     </div>
     
     <div class="col-md-12"> 
