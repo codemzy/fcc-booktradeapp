@@ -20,6 +20,16 @@ angular.module('BookDuckApp')
                 return err;
               });
   };
+  // get full my books data
+  this.myBooks = function() {
+    return $http.get('/api/user/books/mybooks')
+              .success(function(data) {
+                return data;
+              })
+              .error(function(err) {
+                return err;
+              });
+  };
   // add the poll data
   this.addBook = function(data) {
     return $http({
