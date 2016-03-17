@@ -91,7 +91,19 @@ module.exports = function (app, db, passport) {
             	}
     		});
     	});
-    
+    // get a detailed list of books the user owns
+    app.route('/api/user/books/mybooks')
+    	.get(isLoggedIn, function(req, res) {
+    		var userID = req.user._id;
+    		db.collection('library').find({"owners": userID}).toArray(function(err, books) {
+            	if (err) {
+            		console.log(err);
+            		res.status(400).json(err);
+            	} else {
+            		res.json(books);
+            	}
+    		});
+    	});
 
         
     // authentication routes (FIRST LOG IN)

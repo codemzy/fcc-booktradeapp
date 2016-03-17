@@ -15,6 +15,10 @@ angular.module('BookDuckApp', ['ngRoute'])
     templateUrl: '/public/app/views/user_search.html',
     controller: 'SearchController'
     })
+    .when('/mybooks', {
+    templateUrl: '/public/app/views/user_books.html',
+    controller: 'BooksController'
+    })
     // default
     .otherwise({ 
       redirectTo: '/' 

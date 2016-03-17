@@ -1,7 +1,7 @@
 angular.module('BookDuckApp')
-.controller('SearchController', ['$scope', 'search', function($scope, search) {
+.controller('SearchController', ['$scope', 'books', function($scope, books) {
     // GET A LIST OF ANY BOOKS THE USER OWNS
-    search.booksOwned().success(function(data) {
+    books.booksOwned().success(function(data) {
         $scope.userOwns = data.books_owned;
     });
     // SEARCH FOR BOOKS BASED ON SEARCH TERMS
@@ -11,7 +11,7 @@ angular.module('BookDuckApp')
         } else {
             $scope.message = false;
             $scope.loading = true;
-            search.bookSearch($scope.bookTerms).success(function(data) {
+            books.bookSearch($scope.bookTerms).success(function(data) {
                 $scope.bookItems = data.items;
                 $scope.totalItems = data.totalItems;
                 $scope.loading = false;
@@ -59,7 +59,7 @@ angular.module('BookDuckApp')
         $scope.userOwns.push(bookInfo.id);
         $scope.addRequest = false;
         // send the book data to the back end
-        search.addBook(bookData).success(function(data){
+        books.addBook(bookData).success(function(data){
             $scope.message = data.message;
             // remove the addrequest from the book
             for (var i = 0; i < $scope.bookItems.length; i++) {

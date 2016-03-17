@@ -1,5 +1,6 @@
 angular.module('BookDuckApp')
-.factory('search', ['$http', function($http) {
+.factory('books', ['$http', function($http) {
+  // array of id's of books owned for checking
   this.booksOwned = function() {
     return $http.get('/api/user/books/ids')
               .success(function(data) {
@@ -9,6 +10,7 @@ angular.module('BookDuckApp')
                 return err;
               });
   };
+  // get search results for book search term
   this.bookSearch = function(searchTerm) {
     return $http.get('/api/book/search/' + searchTerm)
               .success(function(data) {
