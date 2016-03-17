@@ -104,6 +104,28 @@ module.exports = function (app, db, passport) {
             	}
     		});
     	});
+    // delete a book from the users library
+    app.route('/api/user/delete/:bookid')
+    	.get(isLoggedIn, function(req, res) {
+    		var userID = req.user._id;
+    		var bookID = req.params.bookid;
+    		// remove the user from the book owners
+    		db.collection('library').findAndModify({ "book_id": bookID }, { "_id": 1 }, { $pull: { "owners": userID } }, { new: true }, function(err, book) {
+            	if (err) {
+            		console.log(err);
+            		res.status(400).json(err);
+            	} else {
+            		// add the activity to the user profile
+            		var title = book.value.title;
+                    var today = new Date;
+                    var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+                    var month = months[today.getMonth()];
+                    db.collection('users').update({"_id": userID}, { $push: { "books_owned": bookID, "activity": { $each: [{ "book": title, "type": "removed a book from your library", "date": month + " " + today.getDate() + ", " + today.getFullYear() }], $position: 0, $slice: 50 } } });
+            		res.json({"message": "You removed " + title + " from your library"});
+            	}
+    		});
+    	});
+    
 
         
     // authentication routes (FIRST LOG IN)

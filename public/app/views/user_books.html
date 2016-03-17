@@ -33,12 +33,12 @@
                       <b>Average Rating:</b> {{ book.average_rating }}<br>
                       <b>Number of Ratings:</b> {{ book.rating_count }}<br>
                       <b>Description:</b> {{ descriptionLength(book.description) }}</p>
-                      <p><button ng-click="requestDelete(book.id)" class="btn btn-default btn-block">Remove</button></p>
+                      <p><button ng-click="requestDelete(book.book_id)" class="btn btn-default btn-block">Remove</button></p>
                   </div>
                   <div ng-if="book.deleteRequest" class="col-md-12">
                       <div class="well text-center">
                       <small>Are you sure you want to remove this book from your library?</small><br>
-                      <button ng-click="cancelDelete(book.id)" class="btn btn-success btn-sm">Keep Book</button><button ng-click="addBook(book)" class="btn btn-danger btn-sm">Remove Book</button>
+                      <button ng-click="cancelDelete(book.book_id)" class="btn btn-success btn-sm">Keep Book</button><button ng-click="deleteBook(book.book_id)" class="btn btn-danger btn-sm">Remove Book</button>
                       </div>
                   </div>
               </div>

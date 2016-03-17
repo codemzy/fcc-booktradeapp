@@ -30,7 +30,7 @@ angular.module('BookDuckApp')
                 return err;
               });
   };
-  // add the poll data
+  // add book to library
   this.addBook = function(data) {
     return $http({
             method  : 'POST',
@@ -43,6 +43,16 @@ angular.module('BookDuckApp')
               })
               .error(function(data) {
                 return data;
+              });
+  };
+  // delete book from library
+  this.deleteBook = function(bookID) {
+    return $http.get('/api/user/delete/' + bookID)
+              .success(function(data) {
+                return data;
+              })
+              .error(function(err) {
+                return err;
               });
   };
   return this;

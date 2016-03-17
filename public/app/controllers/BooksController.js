@@ -17,30 +17,31 @@ angular.module('BookDuckApp')
     // FUNCTIONS TO ADD BOOK
     $scope.requestDelete = function(id) {
         for (var i = 0; i < $scope.myBooks.length; i++) {
-            if ($scope.myBooks[i].id == id) {
+            if ($scope.myBooks[i].book_id == id) {
                 $scope.myBooks[i].deleteRequest = true;
             }
         }
     };
     $scope.cancelDelete = function(id) {
         for (var i = 0; i < $scope.myBooks.length; i++) {
-            if ($scope.myBooks[i].id == id) {
+            if ($scope.myBooks[i].book_id == id) {
                 $scope.myBooks[i].deleteRequest = false;
             }
         }
     };
     // TO DO ADD BOOK TO MY BOOKS
-    $scope.addBook = function(bookInfo) {
-        var bookData = $.param(bookInfo);
-        $scope.userOwns.push(bookInfo.id);
-        $scope.addRequest = false;
+    $scope.deleteBook = function(bookID) {
+        var deleteIndex =  function(index) {
+            $scope.myBooks.splice(index, 1);
+        };
         // send the book data to the back end
-        books.addBook(bookData).success(function(data){
+        books.deleteBook(bookID).success(function(data){
             $scope.message = data.message;
             // remove the addrequest from the book
-            for (var i = 0; i < $scope.bookItems.length; i++) {
-                if ($scope.bookItems[i].id == bookInfo.id) {
-                    $scope.bookItems[i].addRequest = false;
+            for (var i = 0; i < $scope.myBooks.length; i++) {
+                if ($scope.myBooks[i].book_id == bookID) {
+                    $scope.myBooks[i].deleteRequest = false;
+                    deleteIndex(i);
                 }
             }
         });
