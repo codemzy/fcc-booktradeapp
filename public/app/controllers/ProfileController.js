@@ -20,13 +20,22 @@ angular.module('BookDuckApp')
     $scope.formData.state = data.state;
     $scope.formData.country = data.country;
     $scope.updateUser = function () {
-      if ($scope.formData.fullName.match(/[^a-z\s0-9?]/ig) || $scope.formData.city.match(/[^a-z\s0-9?]/ig) || $scope.formData.state.match(/[^a-z\s0-9?]/ig) || $scope.formData.country.match(/[^a-z\s0-9?]/ig)) {
+      if ($scope.formData.fullName.match(/[^a-z\s0-9?]/ig)) {
         $scope.helpForm = 'Invalid Information. Please remove punctuation (valid characters are letters, numbers, spaces.)';
+      } else if ($scope.formData.city && $scope.formData.city.match(/[^a-z\s0-9?]/ig)) {
+        $scope.helpForm = 'Invalid Information. Please remove punctuation (valid characters are letters, numbers, spaces.)';
+      } else if ($scope.formData.state && $scope.formData.state.match(/[^a-z\s0-9?]/ig)) {
+        $scope.helpForm = 'Invalid Information. Please remove punctuation (valid characters are letters, numbers, spaces.)';
+      } else if ($scope.formData.country && $scope.formData.country.match(/[^a-z\s0-9?]/ig)) {
+        $scope.helpForm = 'Invalid Information. Please remove punctuation (valid characters are letters, numbers, spaces.)';
+      } else if ($scope.formData.fullName == data.fullName && $scope.formData.city == data.city && $scope.formData.state == data.state && $scope.formData.country == data.country) {
+        $scope.helpForm = 'Your information is up to date.';
+      } else {
+        var userData = $.param($scope.formData);
+        user.updateUser(userData).success(function(data) {
+          $scope.helpForm = data.message;
+        });
       }
-      var userData = $.param($scope.formData);
-      user.updateUser(userData).success(function(data) {
-        $scope.helpForm = data;
-      });
     };
   }); 
 }]);

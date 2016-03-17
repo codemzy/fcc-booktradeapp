@@ -38,6 +38,19 @@ module.exports = function (app, db, passport) {
         .get(isLoggedIn, function(req, res) {
 			res.json(req.user);
         });
+    // update user data from profile form
+    app.route('/api/user/update')
+        .post(isLoggedIn, parseUrlencoded, function(req, res) {
+        	var userID = req.user._id;
+        	db.collection('users').update({"_id": userID}, { $set: { "fullName": req.body.fullName, "city": req.body.city, "state": req.body.state, "country": req.body.country } }, function(err, update) {
+            	if (err) {
+            		console.log(err);
+            		res.status(400).json(err);
+            	} else {
+            		res.json({ "message": "Your profile has been updated." });
+            	}
+        	});
+        });
     // get book data from search
     app.route('/api/book/search/:search')
         .get(isLoggedIn, function(req, res) {
