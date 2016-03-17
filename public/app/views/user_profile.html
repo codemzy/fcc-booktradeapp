@@ -50,7 +50,7 @@
         <div ng-if="user.activity[0]">
             <div class="list-group">
               <li class="list-group-item list-group-item-default" ng-repeat="activity in user.activity">
-                  You are {{activity.type}} to <b>{{ activity.venue }}</b> on {{ activity.date }}.
+                  You {{activity.type}} to <b>{{ activity.venue }}</b> on {{ activity.date }}.
               </li>
             </div>
         </div>
@@ -66,7 +66,7 @@
         <div ng-if="user.activity[0]">
             <div class="list-group">
               <li class="list-group-item list-group-item-default" ng-repeat="activity in user.activity">
-                  You are {{activity.type}} to <b>{{ activity.venue }}</b> on {{ activity.date }}.
+                  You {{activity.type}}: <b>{{ activity.book }}</b>, on {{ activity.date }}.
               </li>
             </div>
         </div>

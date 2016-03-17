@@ -42,11 +42,17 @@ angular.module('BookDuckApp')
     };
     // TO DO ADD BOOK TO MY BOOKS
     $scope.addBook = function(bookInfo) {
-        // get the book data we require TO DO AT THE MO SENDING ALL BOOKINFO
-
         var bookData = $.param(bookInfo);
         // send the book data
         $scope.addRequest = false;
-        search.addBook(bookData);  
+        search.addBook(bookData).success(function(data){
+            $scope.message = data.message;
+            // remove the addrequest from the book
+            for (var i = 0; i < $scope.bookItems.length; i++) {
+                if ($scope.bookItems[i].id == bookInfo.id) {
+                    $scope.bookItems[i].addRequest = false;
+                }
+            }
+        });
     };
 }]);

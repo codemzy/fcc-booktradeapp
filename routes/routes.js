@@ -39,7 +39,7 @@ module.exports = function (app, db, passport) {
         });
     app.route('/api/book/search/:search')
         .get(isLoggedIn, function(req, res) {
-			books.volumes.list({ auth: API_KEY, q: req.params.search, maxResults: 20, projection: "lite" }, function(err, data) {
+			books.volumes.list({ auth: API_KEY, q: req.params.search, maxResults: 20 }, function(err, data) {
             	if (err) {
             		console.log(err);
             		res.status(400).json(err);
@@ -51,8 +51,30 @@ module.exports = function (app, db, passport) {
 	// TO DO ADD BOOK FROM POST REQUEST
     app.route('/api/user/add/book')
         .post(isLoggedIn, parseUrlencoded, function(req, res) {
+        	// get user id
+        	var userID = req.user._id;
 			// get the book data
-			console.log(req.body);
+			var bookID = req.body.id;
+			var img = req.body.volumeInfo.imageLinks.thumbnail;
+			var title = req.body.volumeInfo.title;
+			var published = req.body.volumeInfo.publishedDate;
+			var desc = req.body.volumeInfo.description;
+			var rating = req.body.volumeInfo.averageRating;
+			var ratingCount = req.body.volumeInfo.ratingsCount;
+			// add or update the book in the library
+            db.collection('library').update({ "book_id": bookID }, { $setOnInsert: { "book_id": bookID, "title": title, "img": img, "published_date": published, "description": desc, "traders": [] }, $set: { "average_rating": rating, "rating_count": ratingCount }, $push: { "owners": userID } }, { upsert: true, multi: false }, function(err, book) {
+            	if (err) {
+            		console.log(err);
+            		res.status(400).json(err);
+            	} else {
+            		// add the activity to the user profile
+                    var today = new Date;
+                    var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+                    var month = months[today.getMonth()];
+                    db.collection('users').update({"_id": userID}, { $push: { "activity": { $each: [{ "book": title, "type": "added a book to your library", "date": month + " " + today.getDate() + ", " + today.getFullYear() }], $position: 0, $slice: 50 } } });
+            		res.json({"message": "You added " + title + " to your library"});
+            	}
+            });
         });
 
         
