@@ -45,7 +45,7 @@
                       <b>Average Rating:</b> {{ book.volumeInfo.averageRating }}<br>
                       <b>Number of Ratings:</b> {{ book.volumeInfo.ratingsCount }}<br>
                       <b>Description:</b> {{ descriptionLength(book.volumeInfo.description) }}</p>
-                      <p><button ng-click="requestAdd(book.id)" class="btn btn-default btn-block">Add</button></p>
+                      <p ng-if="!checkOwns(book.id)"><button ng-click="requestAdd(book.id)" class="btn btn-default btn-block">Add</button></p>
                   </div>
                   <div ng-if="book.addRequest" class="col-md-12">
                       <div class="well text-center">

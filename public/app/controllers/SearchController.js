@@ -1,5 +1,9 @@
 angular.module('BookDuckApp')
 .controller('SearchController', ['$scope', 'search', function($scope, search) {
+    // GET A LIST OF ANY BOOKS THE USER OWNS
+    search.booksOwned().success(function(data) {
+        $scope.userOwns = data.books_owned;
+    });
     // SEARCH FOR BOOKS BASED ON SEARCH TERMS
     $scope.bookSearch = function() {
         if (!$scope.bookTerms) {
@@ -25,6 +29,15 @@ angular.module('BookDuckApp')
         return description;
       }
     };
+    // FUNCTION TO CHECK IF USER OWNS BOOK
+    $scope.checkOwns = function(id) {
+        for (var i = 0; i < $scope.userOwns.length; i++) {
+            if ($scope.userOwns[i] == id) {
+                return true;
+            }
+        }
+        return false;
+    };
     // FUNCTIONS TO ADD BOOK
     $scope.requestAdd = function(id) {
         for (var i = 0; i < $scope.bookItems.length; i++) {
@@ -43,8 +56,9 @@ angular.module('BookDuckApp')
     // TO DO ADD BOOK TO MY BOOKS
     $scope.addBook = function(bookInfo) {
         var bookData = $.param(bookInfo);
-        // send the book data
+        $scope.userOwns.push(bookInfo.id);
         $scope.addRequest = false;
+        // send the book data to the back end
         search.addBook(bookData).success(function(data){
             $scope.message = data.message;
             // remove the addrequest from the book

@@ -33,10 +33,12 @@ module.exports = function (app, db, passport) {
 
         
     // LOGGED IN APIS
+    // get user data
     app.route('/api/user')
         .get(isLoggedIn, function(req, res) {
 			res.json(req.user);
         });
+    // get book data from search
     app.route('/api/book/search/:search')
         .get(isLoggedIn, function(req, res) {
 			books.volumes.list({ auth: API_KEY, q: req.params.search, maxResults: 20 }, function(err, data) {
@@ -48,7 +50,7 @@ module.exports = function (app, db, passport) {
             	}
 			});
         });
-	// TO DO ADD BOOK FROM POST REQUEST
+	// add book from post request full of book data
     app.route('/api/user/add/book')
         .post(isLoggedIn, parseUrlencoded, function(req, res) {
         	// get user id
@@ -71,11 +73,25 @@ module.exports = function (app, db, passport) {
                     var today = new Date;
                     var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
                     var month = months[today.getMonth()];
-                    db.collection('users').update({"_id": userID}, { $push: { "activity": { $each: [{ "book": title, "type": "added a book to your library", "date": month + " " + today.getDate() + ", " + today.getFullYear() }], $position: 0, $slice: 50 } } });
+                    db.collection('users').update({"_id": userID}, { $push: { "books_owned": bookID, "activity": { $each: [{ "book": title, "type": "added a book to your library", "date": month + " " + today.getDate() + ", " + today.getFullYear() }], $position: 0, $slice: 50 } } });
             		res.json({"message": "You added " + title + " to your library"});
             	}
             });
         });
+    // get list of book ids the user owns
+    app.route('/api/user/books/ids')
+    	.get(isLoggedIn, function(req, res) {
+    		var userID = req.user._id;
+    		db.collection('users').findOne({"_id": userID}, {"_id": 0, "books_owned": 1}, function(err, books) {
+            	if (err) {
+            		console.log(err);
+            		res.status(400).json(err);
+            	} else {
+            		res.json(books);
+            	}
+    		});
+    	});
+    
 
         
     // authentication routes (FIRST LOG IN)
