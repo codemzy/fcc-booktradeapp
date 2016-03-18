@@ -40,7 +40,7 @@ angular.module('BookDuckApp')
                 return err;
               });
   };
-  // add book to library
+  // add book to my books
   this.addBook = function(data) {
     return $http({
             method  : 'POST',
@@ -55,9 +55,19 @@ angular.module('BookDuckApp')
                 return data;
               });
   };
-  // delete book from library
+  // delete book from my books
   this.deleteBook = function(bookID) {
     return $http.get('/api/user/delete/' + bookID)
+              .success(function(data) {
+                return data;
+              })
+              .error(function(err) {
+                return err;
+              });
+  };
+  // request book from library
+  this.requestBook = function(bookID) {
+    return $http.get('/api/user/request/' + bookID)
               .success(function(data) {
                 return data;
               })

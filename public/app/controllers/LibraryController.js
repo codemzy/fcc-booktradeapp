@@ -1,6 +1,8 @@
 angular.module('BookDuckApp')
 .controller('LibraryController', ['$scope', 'books', function($scope, books) {
     $scope.loading = true;
+    $scope.userOwns = [];
+    $scope.userRequested = [];
     // GET A LIST OF ANY BOOKS THE USER OWNS OR REQUESTED
     books.booksOwned().success(function(data) {
         $scope.userOwns = data.books_owned;
@@ -21,9 +23,22 @@ angular.module('BookDuckApp')
     };
     // FUNCTION TO CHECK IF USER OWNS BOOK
     $scope.checkOwns = function(id) {
-        for (var i = 0; i < $scope.userOwns.length; i++) {
-            if ($scope.userOwns[i] == id) {
-                return true;
+        if ($scope.userOwns) {
+            for (var i = 0; i < $scope.userOwns.length; i++) {
+                if ($scope.userOwns[i] == id) {
+                    return "owns";
+                }
+            }
+        }
+        return false;
+    };
+    // FUNCTION TO CHECK IF USER REQUESTED BOOK
+    $scope.checkRequest = function(id) {
+        if ($scope.userRequested) {
+            for (var i = 0; i < $scope.userRequested.length; i++) {
+                if ($scope.userRequested[i] == id) {
+                    return true;
+                }
             }
         }
         return false;
@@ -51,7 +66,7 @@ angular.module('BookDuckApp')
             $scope.message = data.message;
             // remove the addrequest from the book
             for (var i = 0; i < $scope.allBooks.length; i++) {
-                if ($scope.allBooks[i].id == bookID) {
+                if ($scope.allBooks[i].book_id == bookID) {
                     $scope.allBooks[i].bookRequest = false;
                 }
             }
