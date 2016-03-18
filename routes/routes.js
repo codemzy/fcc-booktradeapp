@@ -133,7 +133,7 @@ module.exports = function (app, db, passport) {
                     var today = new Date;
                     var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
                     var month = months[today.getMonth()];
-                    db.collection('users').update({"_id": userID}, { $push: { "books_owned": bookID, "activity": { $each: [{ "book": title, "type": "removed a book from your library", "date": month + " " + today.getDate() + ", " + today.getFullYear() }], $position: 0, $slice: 50 } } });
+                    db.collection('users').update({"_id": userID}, { $pull: { "books_owned": bookID, "activity": { $each: [{ "book": title, "type": "removed a book from your library", "date": month + " " + today.getDate() + ", " + today.getFullYear() }], $position: 0, $slice: 50 } } });
             		res.json({"message": "You removed " + title + " from your library"});
             	}
     		});
