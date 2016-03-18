@@ -138,6 +138,18 @@ module.exports = function (app, db, passport) {
             	}
     		});
     	});
+    // get the full list of all books in the library owned by at least one person
+    app.route('api/book/all')
+    	.get(isLoggedIn, function(req, res) {
+    		db.collection('library').find({"owners.0": { $exists: true } }).toArray(function(err, books) {
+            	if (err) {
+            		console.log(err);
+            		res.status(400).json(err);
+            	} else {
+            		res.json(books);
+            	}
+    		});
+    	});
     
 
         
