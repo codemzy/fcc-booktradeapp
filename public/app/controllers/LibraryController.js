@@ -45,17 +45,14 @@ angular.module('BookDuckApp')
     };
     // ADD TRADE REQUEST
     $scope.confirmRequest = function(bookID) {
-        var deleteIndex =  function(index) {
-            $scope.myBooks.splice(index, 1);
-        };
+        $scope.userRequested.push(bookID);
         // send the book data to the back end
-        books.deleteBook(bookID).success(function(data){
+        books.requestBook(bookID).success(function(data){
             $scope.message = data.message;
             // remove the addrequest from the book
-            for (var i = 0; i < $scope.myBooks.length; i++) {
-                if ($scope.myBooks[i].book_id == bookID) {
-                    $scope.myBooks[i].deleteRequest = false;
-                    deleteIndex(i);
+            for (var i = 0; i < $scope.allBooks.length; i++) {
+                if ($scope.allBooks[i].id == bookID) {
+                    $scope.allBooks[i].bookRequest = false;
                 }
             }
         });
