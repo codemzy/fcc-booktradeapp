@@ -91,11 +91,11 @@ module.exports = function (app, db, passport) {
             	}
             });
         });
-    // get list of book ids the user owns
+    // get list of book ids the user owns or requested
     app.route('/api/user/books/ids')
     	.get(isLoggedIn, function(req, res) {
     		var userID = req.user._id;
-    		db.collection('users').findOne({"_id": userID}, {"_id": 0, "books_owned": 1}, function(err, books) {
+    		db.collection('users').findOne({"_id": userID}, {"_id": 0, "books_owned": 1, "books_requested": 1}, function(err, books) {
             	if (err) {
             		console.log(err);
             		res.status(400).json(err);
@@ -139,7 +139,7 @@ module.exports = function (app, db, passport) {
     		});
     	});
     // get the full list of all books in the library owned by at least one person
-    app.route('api/book/all')
+    app.route('/api/book/all')
     	.get(isLoggedIn, function(req, res) {
     		db.collection('library').find({"owners.0": { $exists: true } }).toArray(function(err, books) {
             	if (err) {

@@ -14,7 +14,7 @@ angular.module('BookDuckApp')
         return description;
       }
     };
-    // FUNCTIONS TO ADD BOOK
+    // FUNCTIONS TO DELETE BOOK
     $scope.requestDelete = function(id) {
         for (var i = 0; i < $scope.myBooks.length; i++) {
             if ($scope.myBooks[i].book_id == id) {
@@ -29,7 +29,7 @@ angular.module('BookDuckApp')
             }
         }
     };
-    // TO DO ADD BOOK TO MY BOOKS
+    // delete book from my books
     $scope.deleteBook = function(bookID) {
         var deleteIndex =  function(index) {
             $scope.myBooks.splice(index, 1);
@@ -37,7 +37,7 @@ angular.module('BookDuckApp')
         // send the book data to the back end
         books.deleteBook(bookID).success(function(data){
             $scope.message = data.message;
-            // remove the addrequest from the book
+            // remove the book
             for (var i = 0; i < $scope.myBooks.length; i++) {
                 if ($scope.myBooks[i].book_id == bookID) {
                     $scope.myBooks[i].deleteRequest = false;

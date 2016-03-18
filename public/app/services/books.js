@@ -30,6 +30,16 @@ angular.module('BookDuckApp')
                 return err;
               });
   };
+  // get full all library owned books data
+  this.allBooks = function() {
+    return $http.get('/api/book/all')
+              .success(function(data) {
+                return data;
+              })
+              .error(function(err) {
+                return err;
+              });
+  };
   // add book to library
   this.addBook = function(data) {
     return $http({
