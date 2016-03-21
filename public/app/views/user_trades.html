@@ -2,9 +2,7 @@
     
     <div class="col-md-12">
     
-        <h1>All Books.</h1>
-        
-        {{ userRequest }}
+        <h1>My Trades.</h1>
         
         <div ng-if="loading">
             <div class="well text-center">
@@ -20,7 +18,9 @@
     
     </div>
     
-    <div class="col-md-4 col-sm-6" ng-repeat="book in allBooks">
+    <div class="col-md-12"><h2 class="text-success">My Book Requests.</h2></div>
+    
+    <div class="col-md-4 col-sm-6" ng-repeat="book in myRequests">
         <div class="panel">
           <div class="panel-body">
               <div class="row">
@@ -31,14 +31,12 @@
                       <h4>{{ book.title }}</h4>
                   </div>
                   <div class="col-md-12">
-                      <p ng-if="!checkOwns(book.book_id) && !checkRequest(book.book_id)"><button ng-click="requestBook(book.book_id)" class="btn btn-default btn-block">Request</button></p>
-                      <p ng-if="checkOwns(book.book_id)"><button class="btn btn-default btn-block disabled">Book Owned</button></p>
-                      <p ng-if="!checkOwns(book.book_id) && checkRequest(book.book_id)"><button class="btn btn-default btn-block disabled">Book Requested</button></p>
+                      <p><button ng-click="requestDelete(book.book_id)" class="btn btn-default btn-block">Remove Request</button></p>
                   </div>
-                  <div ng-if="book.bookRequest" class="col-md-12">
+                  <div ng-if="book.deleteRequest" class="col-md-12">
                       <div class="well text-center">
-                      <small>Do you want to request this book?</small><br>
-                      <button ng-click="cancelRequest(book.book_id)" class="btn btn-danger btn-sm">Cancel</button><button ng-click="confirmRequest(book.book_id)" class="btn btn-success btn-sm">Yes</button>
+                      <small>Are you sure you want to remove this book from your requests?</small><br>
+                      <button ng-click="cancelDelete(book.book_id)" class="btn btn-success btn-sm">Keep Request</button><button ng-click="deleteBook(book.book_id)" class="btn btn-danger btn-sm">Remove Request</button>
                       </div>
                   </div>
               </div>

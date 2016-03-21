@@ -23,6 +23,10 @@ angular.module('BookDuckApp', ['ngRoute'])
     templateUrl: '/public/app/views/user_library.html',
     controller: 'LibraryController'
     })
+    .when('/trades', {
+    templateUrl: '/public/app/views/user_trades.html',
+    controller: 'TradeController'
+    })
     // default
     .otherwise({ 
       redirectTo: '/' 

@@ -117,6 +117,19 @@ module.exports = function (app, db, passport) {
             	}
     		});
     	});
+    // get a detailed list of books the user has requested
+    app.route('/api/user/books/requests')
+    	.get(isLoggedIn, function(req, res) {
+    		var userID = req.user._id;
+    		db.collection('library').find({"traders": userID}).toArray(function(err, books) {
+            	if (err) {
+            		console.log(err);
+            		res.status(400).json(err);
+            	} else {
+            		res.json(books);
+            	}
+    		});
+    	});
     // delete a book from the users library
     app.route('/api/user/delete/:bookid')
     	.get(isLoggedIn, function(req, res) {
