@@ -95,5 +95,15 @@ angular.module('BookDuckApp')
                 return err;
               });
   };
+  // trade book
+  this.tradeBook = function(bookID) {
+    return $http.get('/api/user/trade/' + bookID)
+              .success(function(data) {
+                return data;
+              })
+              .error(function(err) {
+                return err;
+              });
+  };
   return this;
 }]);
