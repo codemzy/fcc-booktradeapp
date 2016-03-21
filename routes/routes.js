@@ -193,6 +193,38 @@ module.exports = function (app, db, passport) {
             	}
     		});
     	});
+    // accept a trade
+    app.route('/api/user/trade/:bookid')
+    	.get(isLoggedIn, function(req, res) {
+    		var userID = req.user._id;
+    		var bookID = req.params.bookid;
+    		// remove the user from the book owners
+    		db.collection('library').findAndModify({ "book_id": bookID }, { "_id": 1 }, { $pull: { "owners": userID } }, { new: true }, function(err, book) {
+            	if (err) {
+            		console.log(err);
+            		res.status(400).json(err);
+            	} else {
+            		// add the new owner of the book from the first trader
+            		var title = book.value.title;
+            		var traderID = book.value.traders[0];
+            		db.collection('library').update({ "book_id": bookID }, { $pull: { "traders": traderID }, $push: { "owners": traderID } }, { multi: false }, function (err, updated) {
+                    	if (err) {
+                    		console.log(err);
+                    		res.status(400).json(err);
+                    	} else {
+                	        var today = new Date;
+                            var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+                            var month = months[today.getMonth()];
+                            // add the activity to the trader profile
+                            db.collection('users').update({"_id": traderID}, { $pull: { "books_requested": bookID }, $push: { "books_owned": bookID, "activity": { $each: [{ "book": title, "type": "your book request has been accepted", "date": month + " " + today.getDate() + ", " + today.getFullYear() }], $position: 0, $slice: 50 } } });
+                    		// add the activity to the user profile
+                            db.collection('users').update({"_id": userID}, { $pull: { "books_owned": bookID }, $inc: { "trade_credits": 1 }, $push: { "activity": { $each: [{ "book": title, "type": "traded your book", "date": month + " " + today.getDate() + ", " + today.getFullYear() }], $position: 0, $slice: 50 } } });
+                    		res.json({"message": "You traded your book " + title});
+                    	}
+            		});
+            	}
+            });
+    	});
     // get the full list of all books in the library owned by at least one person
     app.route('/api/book/all')
     	.get(isLoggedIn, function(req, res) {
