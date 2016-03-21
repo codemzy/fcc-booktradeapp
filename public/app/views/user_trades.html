@@ -20,6 +20,12 @@
     
     <div class="col-md-12"><h2 class="text-success">Requests for You.</h2></div>
     
+    <div ng-if="!myMatches[0]" class="col-md-12">
+        <div class="well text-center">
+          <h4><i class="fa fa-times"></i> No trade requests for you yet. Keep quacking.</h4>
+        </div>
+    </div>
+        
     <div class="col-md-4 col-sm-6" ng-repeat="book in myMatches">
         <div class="panel">
           <div class="panel-body">
@@ -45,6 +51,12 @@
     </div>
     
     <div class="col-md-12"><h2 class="text-success">Your Requests.</h2></div>
+    
+    <div ng-if="!myRequests[0]" class="col-md-12">
+        <div class="well text-center">
+          <h4><i class="fa fa-times"></i> You haven't requested any trades yet. Check out available books in <a href="#/books">Books</a>.</h4>
+        </div>
+    </div>
     
     <div class="col-md-4 col-sm-6" ng-repeat="book in myRequests">
         <div class="panel">
