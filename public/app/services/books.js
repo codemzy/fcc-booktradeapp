@@ -85,5 +85,15 @@ angular.module('BookDuckApp')
                 return err;
               });
   };
+  // delete book request from my trades
+  this.deleteRequest = function(bookID) {
+    return $http.get('/api/user/requestdelete/' + bookID)
+              .success(function(data) {
+                return data;
+              })
+              .error(function(err) {
+                return err;
+              });
+  };
   return this;
 }]);
