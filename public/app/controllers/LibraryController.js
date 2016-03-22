@@ -5,8 +5,12 @@ angular.module('BookDuckApp')
     $scope.userRequested = [];
     // GET A LIST OF ANY BOOKS THE USER OWNS OR REQUESTED
     books.booksOwned().success(function(data) {
-        $scope.userOwns = data.books_owned;
-        $scope.userRequested = data.books_requested;
+        if (data.books_owned[0]) {
+            $scope.userOwns = data.books_owned;
+        }
+        if (data.books_requested[0]) {
+            $scope.userRequested = data.books_requested;
+        }
     });
     // GET A LIST OF ANY BOOKS IN THE LIBRARY WITH AN OWNER
     books.allBooks().success(function(data) {

@@ -1,8 +1,11 @@
 angular.module('BookDuckApp')
 .controller('SearchController', ['$scope', 'books', function($scope, books) {
+    $scope.userOwns = [];
     // GET A LIST OF ANY BOOKS THE USER OWNS
     books.booksOwned().success(function(data) {
-        $scope.userOwns = data.books_owned;
+        for (var i = 0; i<data.books_owned; i++) {
+            $scope.userOwns.push(data.books_owned[i]);
+        }
     });
     // SEARCH FOR BOOKS BASED ON SEARCH TERMS
     $scope.bookSearch = function() {
@@ -31,9 +34,11 @@ angular.module('BookDuckApp')
     };
     // FUNCTION TO CHECK IF USER OWNS BOOK
     $scope.checkOwns = function(id) {
-        for (var i = 0; i < $scope.userOwns.length; i++) {
-            if ($scope.userOwns[i] == id) {
-                return true;
+        if ($scope.userOwns) {
+            for (var i = 0; i < $scope.userOwns.length; i++) {
+                if ($scope.userOwns[i] == id) {
+                    return true;
+                }
             }
         }
         return false;

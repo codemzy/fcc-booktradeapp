@@ -5,6 +5,9 @@ angular.module('BookDuckApp')
     books.myBooks().success(function(data) {
         $scope.loading = false;
         $scope.myBooks = data;
+        if (!$scope.myBooks[0]) {
+            $scope.message = "You have not added any books to your library yet";
+        }
     });
     // FUNCTION TO SHORTEN DESCRIPTION
     $scope.descriptionLength = function(description) {

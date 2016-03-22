@@ -77,7 +77,7 @@ module.exports = function (app, db, passport) {
 			var rating = req.body.volumeInfo.averageRating;
 			var ratingCount = req.body.volumeInfo.ratingsCount;
 			// add or update the book in the library
-            db.collection('library').update({ "book_id": bookID }, { $setOnInsert: { "book_id": bookID, "title": title, "img": img, "published_date": published, "description": desc, "traders": [] }, $set: { "average_rating": rating, "rating_count": ratingCount }, $push: { "owners": userID }, $pull: { "traders": userID } }, { upsert: true, multi: false }, function(err, book) {
+            db.collection('library').update({ "book_id": bookID }, { $setOnInsert: { "book_id": bookID, "title": title, "img": img, "published_date": published, "description": desc }, $set: { "average_rating": rating, "rating_count": ratingCount }, $push: { "owners": userID }, $pull: { "traders": userID } }, { upsert: true, multi: false }, function(err, book) {
             	if (err) {
             		console.log(err);
             		res.status(400).json(err);
