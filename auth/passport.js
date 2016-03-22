@@ -77,7 +77,7 @@ module.exports = function (passport, db) {
 	        'token': token
 	    };
         // update the user
-        db.collection('users').update({"facebook.id": user.facebook.id}, { 'facebook': user.facebook, 'twitter': twitterObj }, { upsert: false, multi: false });
+        db.collection('users').update({"facebook.id": user.facebook.id}, { $set: { 'twitter': twitterObj } }, { upsert: false, multi: false });
 	    db.collection('users').findOne({ 'twitter.id' : profile.id }, function(err, user) {
 	    	if (err) {
 	    		return done(err);
@@ -144,7 +144,7 @@ module.exports = function (passport, db) {
 	        'token': token
 	    };
         // update the user
-        db.collection('users').update({"twitter.id": user.twitter.id}, { 'twitter': user.twitter, 'facebook': facebookObj }, { upsert: false, multi: false });
+        db.collection('users').update({"twitter.id": user.twitter.id}, { $set: { 'facebook': facebookObj } }, { upsert: false, multi: false });
 	    db.collection('users').findOne({ 'facebook.id' : profile.id }, function(err, user) {
 	    	if (err) {
 	    		return done(err);
